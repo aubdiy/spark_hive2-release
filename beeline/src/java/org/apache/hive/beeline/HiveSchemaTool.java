@@ -125,10 +125,12 @@ public class HiveSchemaTool {
    */
   public void showInfo() throws HiveMetaException {
     Connection metastoreConn = getConnectionToMetastore(true);
-    System.out.println("Hive distribution version:\t " +
-        MetaStoreSchemaInfo.getHiveSchemaVersion());
-    System.out.println("Metastore schema version:\t " +
-        getMetaStoreSchemaVersion(metastoreConn));
+    String hiveVersion = MetaStoreSchemaInfo.getHiveSchemaVersion();
+    String dbVersion = getMetaStoreSchemaVersion(metastoreConn);
+    System.out.println("Hive distribution version:\t " + hiveVersion);
+    System.out.println("Metastore schema version:\t " + dbVersion);
+    assertCompatibleVersion(hiveVersion, dbVersion);
+
   }
 
   // read schema version from metastore
@@ -177,10 +179,15 @@ public class HiveSchemaTool {
     String newSchemaVersion = getMetaStoreSchemaVersion(
         getConnectionToMetastore(false));
     // verify that the new version is added to schema
-    if (!MetaStoreSchemaInfo.getHiveSchemaVersion().equalsIgnoreCase(newSchemaVersion)) {
-      throw new HiveMetaException("Expected schema version " + MetaStoreSchemaInfo.getHiveSchemaVersion() +
-        ", found version " + newSchemaVersion);
-    }
+    assertCompatibleVersion(MetaStoreSchemaInfo.getHiveSchemaVersion(), newSchemaVersion);
+  }
+
+  private void assertCompatibleVersion(String hiveSchemaVersion, String dbSchemaVersion)
+      throws HiveMetaException {
+     if (!MetaStoreSchemaInfo.isVersionCompatible(hiveSchemaVersion, dbSchemaVersion)) {
+       throw new HiveMetaException("Metastore schema version is not compatible. Hive Version: "
+          + hiveSchemaVersion + ", Database Schema Version: " + dbSchemaVersion);
+     }
   }
 
   /**
@@ -433,8 +440,8 @@ public class HiveSchemaTool {
       if ((!dbType.equalsIgnoreCase(HiveSchemaHelper.DB_DERBY) &&
           !dbType.equalsIgnoreCase(HiveSchemaHelper.DB_MSSQL) &&
           !dbType.equalsIgnoreCase(HiveSchemaHelper.DB_MYSQL) &&
-          !dbType.equalsIgnoreCase(HiveSchemaHelper.DB_POSTGRACE) && !dbType
-          .equalsIgnoreCase(HiveSchemaHelper.DB_ORACLE))) {
+          !dbType.equalsIgnoreCase(HiveSchemaHelper.DB_POSTGRACE) && 
+          !dbType.equalsIgnoreCase(HiveSchemaHelper.DB_ORACLE))) {
         System.err.println("Unsupported dbType " + dbType);
         printAndExit(cmdLineOptions);
       }
