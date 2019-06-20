@@ -291,7 +291,7 @@ public class FetchOperator implements Serializable {
   }
 
   private RecordReader<WritableComparable, Writable> getRecordReader() throws Exception {
-    if (iterSplits != null && iterSplits.hasNext()) {
+    if (!iterSplits.hasNext()) {
       FetchInputFormatSplit[] splits = getNextSplits();
       if (splits == null) {
         return null;
