@@ -128,7 +128,7 @@
     <commons-pool.version>1.5.4</commons-pool.version>
     <commons-dbcp.version>1.4</commons-dbcp.version>
     <derby.version>10.10.2.0</derby.version>
-    <guava.version>24.1.1-jre</guava.version>
+    <guava.version>28.0-jre</guava.version>
     <groovy.version>2.1.6</groovy.version>
     <hadoop-20S.version>1.2.1</hadoop-20S.version>
     <hadoop-23.version>2.6.0</hadoop-23.version>
