@@ -42,6 +42,7 @@
     <hive3.calcite.version>1.16.0</hive3.calcite.version>
     <hive3.libfb303.version>0.9.3</hive3.libfb303.version>
     <hive3.jackson.version>2.9.9</hive3.jackson.version>
+    <hive3.jackson.databind.version>2.9.9.1</hive3.jackson.databind.version>
   </properties>
 
   <dependencies>
@@ -180,7 +181,7 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>${hive3.jackson.version}</version>
+      <version>${hive3.jackson.databind.version}</version>
       <exclusions>
         <exclusion>
           <groupId>*</groupId>
