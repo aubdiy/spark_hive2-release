@@ -484,13 +484,13 @@ public class HiveConf extends Configuration {
     METASTORE_VALIDATE_CONSTRAINTS("datanucleus.schema.validateConstraints", false,
         "validates existing schema against code. turn this on if you want to verify existing schema"),
     METASTORE_STORE_MANAGER_TYPE("datanucleus.storeManagerType", "rdbms", "metadata store type"),
-    METASTORE_AUTO_CREATE_ALL("datanucleus.schema.autoCreateAll", false,
+    METASTORE_AUTO_CREATE_ALL("datanucleus.schema.autoCreateAll", true,
         "Auto creates necessary schema on a startup if one doesn't exist. Set this to false, after creating it once."
         + "To enable auto create also set hive.metastore.schema.verification=false. Auto creation is not "
         + "recommended for production use cases, run schematool command instead." ),
-    METASTORE_AUTO_CREATE_SCHEMA("datanucleus.autoCreateSchema", false,
+    METASTORE_AUTO_CREATE_SCHEMA("datanucleus.autoCreateSchema", true,
         "creates necessary schema on a startup if one doesn't exist. set this to false, after creating it once"),
-    METASTORE_SCHEMA_VERIFICATION("hive.metastore.schema.verification", true,
+    METASTORE_SCHEMA_VERIFICATION("hive.metastore.schema.verification", false,
         "Enforce metastore schema version consistency.\n" +
         "True: Verify that version information stored in metastore matches with one from Hive jars.  Also disable automatic\n" +
         "      schema migration attempt. Users are required to manually migrate schema after Hive upgrade which ensures\n" +
