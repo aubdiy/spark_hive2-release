@@ -1044,8 +1044,6 @@ public final class Utilities {
 
     e.setPersistenceDelegate(org.datanucleus.store.types.wrappers.backed.Map.class, new MapDelegate());
     e.setPersistenceDelegate(org.datanucleus.store.types.wrappers.backed.List.class, new ListDelegate());
-    e.setPersistenceDelegate(org.datanucleus.store.types.wrappers.Map.class, new MapDelegate());
-    e.setPersistenceDelegate(org.datanucleus.store.types.wrappers.List.class, new ListDelegate());
     e.setPersistenceDelegate(CommonToken.class, new CommonTokenDelegate());
     e.setPersistenceDelegate(Path.class, new PathDelegate());
 
