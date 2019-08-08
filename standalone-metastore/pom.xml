@@ -42,7 +42,7 @@
     <hive3.calcite.version>1.16.0</hive3.calcite.version>
     <hive3.libfb303.version>0.9.3</hive3.libfb303.version>
     <hive3.jackson.version>2.9.9</hive3.jackson.version>
-    <hive3.jackson.databind.version>2.9.9.2</hive3.jackson.databind.version>
+    <hive3.jackson.databind.version>2.9.9.3</hive3.jackson.databind.version>
   </properties>
 
   <dependencies>
