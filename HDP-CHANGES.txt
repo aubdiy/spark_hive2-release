@@ -1,0 +1,2 @@
+BUG-124945 HIVE-16175: Possible race condition in InstanceCache (Chao Sun, reviewed by Xuefu Zhang)
+BUG-124945 HIVE-19261: Avro SerDe's InstanceCache should not be synchronized on retrieve (Alexey Diomin via David Mollitor)

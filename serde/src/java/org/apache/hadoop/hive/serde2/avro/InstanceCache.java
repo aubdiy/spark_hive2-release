@@ -20,8 +20,9 @@ package org.apache.hadoop.hive.serde2.avro;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Cache for objects whose creation only depends on some other set of objects
@@ -33,7 +34,7 @@ import java.util.Set;
  */
 public abstract class InstanceCache<SeedObject, Instance> {
   private static final Log LOG = LogFactory.getLog(InstanceCache.class);
-  HashMap<Integer, Instance> cache = new HashMap<Integer, Instance>();
+  Map<Integer, Instance> cache = new ConcurrentHashMap<>();
   
   public InstanceCache() {}
 
@@ -49,20 +50,19 @@ public abstract class InstanceCache<SeedObject, Instance> {
    * Retrieve (or create if it doesn't exist) the correct Instance for this
    * SeedObject using 'seenSchemas' to resolve circular references
    */
-  public synchronized Instance retrieve(SeedObject hv,
-      Set<SeedObject> seenSchemas) throws AvroSerdeException {
+  public Instance retrieve(SeedObject hv, Set<SeedObject> seenSchemas)
+    throws AvroSerdeException {
     if(LOG.isDebugEnabled()) LOG.debug("Checking for hv: " + hv.toString());
 
     if(cache.containsKey(hv.hashCode())) {
       if(LOG.isDebugEnabled()) LOG.debug("Returning cache result.");
       return cache.get(hv.hashCode());
+    } else {
+      if(LOG.isDebugEnabled()) LOG.debug("Creating new instance and storing in cache");
+      Instance newInstance = makeInstance(hv, seenSchemas);
+      Instance cachedInstance = cache.putIfAbsent(hv.hashCode(), newInstance);
+      return cachedInstance == null ? newInstance : cachedInstance;
     }
-
-    if(LOG.isDebugEnabled()) LOG.debug("Creating new instance and storing in cache");
-
-    Instance instance = makeInstance(hv, seenSchemas);
-    cache.put(hv.hashCode(), instance);
-    return instance;
   }
 
   protected abstract Instance makeInstance(SeedObject hv,
